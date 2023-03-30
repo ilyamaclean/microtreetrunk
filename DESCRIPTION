@@ -1,0 +1,30 @@
+Package: microtreetrunk
+Type: Package
+Title: Coupled tree-trunk temperature and microclimate model
+Version: 0.1.0
+Authors@R: c(
+    person("Ilya", "Maclean", email = "i.m.d.maclean@exeter.ac.uk", role = "cre"))
+Maintainer: Ilya M. D. Maclean <i.m.d.maclean@exeter.ac.uk>
+Description: Runs a transient tree trunk temperature model to provide temperature 
+  estimates in a user-specified number of segements and concentric rings. Outputs from
+  an inbuilt microclimate model are used as inputs to the tree-trunk model. The 
+  microclimate model is based on the localised near-field theory model described by 
+  Raupach (1989), with the distribution of heat sources and sinks derived from solar
+  radiation using methods described in Campbell & Normam (2012). Radiation transmission 
+  through the canopy is modelled using the variant of the Dickenson-Sellers two-stream 
+  model described by Yuan et al (2017). 
+License: GPL-2
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.1.2
+Remotes: mrke/NicheMapR
+Imports: stats,
+    zoo,
+Suggests: 
+    fields,
+    knitr,
+    raster,
+    rmarkdown
+Depends: 
+    R (>= 2.10)
+VignetteBuilder: knitr
