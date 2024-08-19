@@ -1,3 +1,19 @@
+#' A list of soil properties by soil type used in NicheMapR
+#'
+#' @format a data.frame with the following columns:
+#' \describe{
+#'  \item{Texture}{soil type (see [soilparams()])}
+#'  \item{Silt}{proportion of silt (0-1)}
+#'  \item{Clay}{proportion of clay (0-1)}
+#'  \item{airentry}{}
+#'  \item{b}{}
+#'  \item{Ks}{}
+#'  \item{field}{}
+#'  \item{wilting}{}
+#' }
+"CampNormTbl9_1"
+#'
+#'#'
 #' A list of soil and ground parameters required for running the model
 #'
 #' @format a list with the following elements:
