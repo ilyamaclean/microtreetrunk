@@ -4,7 +4,7 @@
 \alias{runtreetrunk}
 \title{Runs tree trunk model}
 \usage{
-runtreetrunk(modin, fwet = 0.1, tomax = NA, daysinit = 1)
+runtreetrunk(modin, fwet = 0.1, tomax = NA, daysinit = 1, smoothseg = FALSE)
 }
 \arguments{
 \item{modin}{an object of class `treein` as returned by [modelprep()].}
@@ -15,6 +15,8 @@ runtreetrunk(modin, fwet = 0.1, tomax = NA, daysinit = 1)
 duration}
 
 \item{daysinit}{number of days to use as a burn-in when starting the model (see details).}
+
+\item{smoothseg}{- boolean whether to run smoothing between segements}
 }
 \value{
 an object of class `treemodout` - a list of the following: (i) an array of temperatures for each layer,

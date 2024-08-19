@@ -4,7 +4,7 @@
 \alias{treeonestep}
 \title{Runs one step of tree trunk model}
 \usage{
-treeonestep(modin, i, fwet = 0.1)
+treeonestep(modin, i, fwet = 0.1, smoothseg = TRUE)
 }
 \arguments{
 \item{modin}{an object of class `treein` as returned by [modelprep()].}
