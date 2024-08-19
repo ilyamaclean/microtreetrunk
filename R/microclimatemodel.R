@@ -204,8 +204,8 @@ modelin<-function(weather,prec,vegp,groundp,lat,long,reqhgt,n = 100) {
   weather$azimuth<-sp$azimuth
   weather$si<-.solarcoef(sp,groundp)
   # Create input datasets
-  setClass("microin",slots=c(weather="data.frame",prec="numeric",vegp="list",groundp="list",
-                             loc="numeric",twostreamp="list",reqhgt="numeric"))
+  #setClass("microin",slots=c(weather="data.frame",prec="numeric",vegp="list",groundp="list",
+  #                           loc="numeric",twostreamp="list",reqhgt="numeric"))
   microin<-new("microin",weather=weather,prec=prec,vegp=vegp,groundp=groundp,
                loc=c(long,lat),twostreamp=list(),reqhgt=reqhgt)
   return(microin)
@@ -420,7 +420,7 @@ runmicro<-function(microin,interval=300,iter=5,tomax=NA) {
   Microclimate<-list(Tair=Tair,Tfoliage=tleaf,Relhum=RH, Windspeed=wsp)
   Radiation<-list(Rdirdown=Rbdown,Rdifdown=Rddown,Rdifup=Rdup,Rlwdown=Lwdown,Rlwup=Lwup)
   Inputdata<-microin@weather[1:tomax,]
-  setClass("microout",slots=c(Microclimate="list",Radiation="list",InputWeather="data.frame"))
+  #setClass("microout",slots=c(Microclimate="list",Radiation="list",InputWeather="data.frame"))
   microout<-new("microout",Microclimate=Microclimate,Radiation=Radiation,InputWeather=Inputdata)
   return(microout)
 }
