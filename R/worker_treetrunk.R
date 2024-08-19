@@ -153,7 +153,8 @@
     tp<-c(to[2:length(to)],to[1])
     tn<-c(to[length(to)],to[1:(length(to)-1)])
     mu<-exp(-Ks[lyr]*tstep/scph[lyr,])
-    HS<-Ks[lyr]*(to-tp)+Ks[lyr]*(to-tn)*mu
+    # HS<-Ks[lyr]*(to-tp)+Ks[lyr]*(to-tn)*mu # temp diverges?
+    HS<-Ks[lyr]*(tp-to)+Ks[lyr]*(tn-to)*mu # makes temp converge between adjacent segs
     tm[lyr,]<-to+(HS*tstep)/scph[lyr,]
   }
   tm
