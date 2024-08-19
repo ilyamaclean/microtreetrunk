@@ -51,8 +51,8 @@ modelprep<-function(microout,treeparams) {
   lt<-nds[1:nlayers]-nds[2:length(nds)]
   Ks<-Ks*lt # Thermal conductivity between each segment (W/K)
   FixedParams<-list(asps=asps,scph=scph,Kl=Kl,Ks=Ks)
-  setClass("treein",slots=c(Microclimate="list",Radiation="list",InputWeather="data.frame",
-                            Treeparams="list",FixedParams="list",treetemps="matrix"))
+  #setClass("treein",slots=c(Microclimate="list",Radiation="list",InputWeather="data.frame",
+  #                          Treeparams="list",FixedParams="list",treetemps="matrix"))
   treein<-new("treein",Microclimate=microout@Microclimate,Radiation=microout@Radiation,
               InputWeather=microout@InputWeather,Treeparams=treeparams,
               FixedParams=FixedParams,treetemps=tm)
@@ -99,7 +99,7 @@ microspline<-function(modin,secs=60) {
   # InputWeather
   modin@InputWeather$si[modin@InputWeather$si<0]<-0
   InputWeather<-matrix(0,ncol=dim(modin@InputWeather)[2],nrow=n)
-  tme<-as.numeric(as.POSIXlt(modin@InputWeather$obs_time))
+  tme <- as.numeric(as.POSIXlt(modin@InputWeather$obs_time,tz='UTC'))
   tme<-spline(tme,n=n)$y
   tme<-as.POSIXlt(tme,origin="1970-01-01 00:00",tz="UTC")
   for (i in 2:dim(modin@InputWeather)[2]) {
@@ -128,7 +128,7 @@ microspline<-function(modin,secs=60) {
 #' @details See accompanying vignette for application of this function.
 #' @rdname treeonestep
 #' @export
-treeonestep<-function(modin,i,fwet=0.1) {
+treeonestep<-function(modin,i,fwet=0.1,smoothseg=TRUE) {
   # Calculate radiation absorbed by outer layer
   Rabs<-.trunkradabs(modin,i)*0.5
   # Calculate radiation emitted by outer layer
@@ -145,6 +145,7 @@ treeonestep<-function(modin,i,fwet=0.1) {
   # Calculate segment exchange
   modin@treetemps<-.segmentexchange(modin,i)
   #modin@treetemps<-.smoothsegments(modin,i)
+  if(smoothseg) modin@treetemps<-.smoothsegments(modin,i)
   return(modin)
 }
 #' @title Runs tree trunk model
@@ -154,6 +155,7 @@ treeonestep<-function(modin,i,fwet=0.1) {
 #' @param tomax time step to which to run model. If `NA` model is run for entire
 #' duration
 #' @param daysinit number of days to use as a burn-in when starting the model (see details).
+#' @param smoothseg - boolean whether to run smoothing between segements
 #' @return an object of class `treemodout` - a list of the following: (i) an array of temperatures for each layer,
 #' segment and time-interval; (ii) a POSIXlt object of the corresponding times
 #' for each time-interval.
@@ -164,7 +166,7 @@ treeonestep<-function(modin,i,fwet=0.1) {
 #' vignette for a demonstration of this function.
 #' @rdname runtreetrunk
 #' @export
-runtreetrunk<-function(modin,fwet=0.1,tomax=NA,daysinit=1) {
+runtreetrunk<-function(modin,fwet=0.1,tomax=NA,daysinit=1, smoothseg=FALSE) {
   n<-length(modin@Microclimate$Tair)
   if (is.na(tomax)) tomax<-n
   # Calculate temperature limits
@@ -176,12 +178,12 @@ runtreetrunk<-function(modin,fwet=0.1,tomax=NA,daysinit=1) {
   # Initialise model
   id<-(24*3600*daysinit)/.tstep(modin@InputWeather,2)# time-steps in first day
   for (i in 1:id) {
-    modin<-treeonestep(modin,i,fwet)
+    modin<-treeonestep(modin,i,fwet, smoothseg)
     modin@treetemps<-.limtm(modin@treetemps,Tmn[i],Tmx[i])
   }
   Tout<-array(0,dim=c(dim(modin@treetemps),tomax))
   for (i in 1:tomax) {
-    modin<-treeonestep(modin,i,fwet)
+    modin<-treeonestep(modin,i,fwet, smoothseg)
     modin@treetemps<-.limtm(modin@treetemps,Tmn[i],Tmx[i])
     Tout[,,i]<-modin@treetemps
   }
