@@ -36,7 +36,7 @@
   swabs<-(1-modin@Treeparams$tref)*(dirr+dif)
   lwabs<-(1-modin@Treeparams$tem)+with(modin@Radiation,Rlwdown+Rlwup)
   lwabs[lwabs<0]<-0
-  Rabs<-(swabs+lwabs)/2
+  Rabs<-(swabs+lwabs)
   # forced convection
   d<-with(modin@Treeparams,2*radius)
   gHfo<-0.135*sqrt(modin@Microclimate$Windspeed/d)
