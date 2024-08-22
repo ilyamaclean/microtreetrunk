@@ -73,10 +73,10 @@
   index<-cos(salt*pi/180)*cos((sazi-asps)*pi/180)
   index[index<0]<-0
   # Absorbed shortwave radiation
-  swabs<-(1-modin@Treeparams$tref)*(index*dni+dif) # original
-  # swabs<-(1-modin@Treeparams$tref)*(index*dni+ 0.5*dif) # changed
-  lwabs<-(1-modin@Treeparams$tem)+with(modin@Radiation,Rlwdown[i]+Rlwdown[i])
-  # lwabs<-(1-modin@Treeparams$tem)+with(modin@Radiation,0.5*(Rlwdown[i]+Rlwdown[i])) # changed
+  #swabs<-(1-modin@Treeparams$tref)*(index*dni+dif) # original
+  swabs<-(1-modin@Treeparams$tref)*(index*dni+ 0.5*dif) # changed
+  #lwabs<-(1-modin@Treeparams$tem)+with(modin@Radiation,Rlwdown[i]+Rlwdown[i])
+  lwabs<-(1-modin@Treeparams$tem)+with(modin@Radiation,0.5*(Rlwdown[i]+Rlwdown[i])) # changed
   rabs<-swabs+lwabs
   rabs
 }
