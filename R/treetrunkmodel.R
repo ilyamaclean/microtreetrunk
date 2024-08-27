@@ -130,7 +130,7 @@ microspline<-function(modin,secs=60) {
 #' @export
 treeonestep<-function(modin,i,fwet=0.1,smoothseg=TRUE) {
   # Calculate radiation absorbed by outer layer
-  Rabs<-.trunkradabs(modin,i)*0.5
+  Rabs<-.trunkradabs(modin,i)
   # Calculate radiation emitted by outer layer
   Rem<-.treeradem(modin,i)
   # Calculate sensible heat
